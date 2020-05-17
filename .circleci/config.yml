@@ -34,5 +34,5 @@ workflows:
     - publish_emp_connector:
         filters:
           branches:
-            ignore:
+            only:
             - master
