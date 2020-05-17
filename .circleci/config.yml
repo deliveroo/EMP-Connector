@@ -1,0 +1,38 @@
+defaults: &defaults
+  docker:
+  - image: circleci/openjdk:8u212-stretch
+version: 2
+
+jobs:
+  tag_version:
+    <<: *defaults
+
+    steps:
+
+    - checkout
+
+    - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+        # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+        key: emp-connector-{{ checksum "pom.xml" }}
+
+    - run:
+        name: build, then publish to artifactory
+        command: |
+          sed -i.bak -e "s/EMP_CONN_VER/${CIRCLE_BUILD_NUM}-roo/g; " pom.xml
+          mvn clean deploy -DARTIFACTORY_USERNAME=$ARTIFACTORY_USERNAME -DARTIFACTORY_PASSWORD=$ARTIFACTORY_PASSWORD
+
+    - save_cache: # saves the project dependencies
+        paths:
+          - ~/.m2
+        key: emp-connector-{{ checksum "pom.xml" }}
+
+
+workflows:
+  version: 2
+  tag_with_version:
+    jobs:
+    - tag_version:
+        filters:
+          branches:
+            not:
+            - master
