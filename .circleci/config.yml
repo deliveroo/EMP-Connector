@@ -4,7 +4,7 @@ defaults: &defaults
 version: 2
 
 jobs:
-  tag_version:
+  publish_emp_connector:
     <<: *defaults
 
     steps:
@@ -29,9 +29,9 @@ jobs:
 
 workflows:
   version: 2
-  tag_with_version:
+  publish_emp_connector_artifact:
     jobs:
-    - tag_version:
+    - publish_emp_connector:
         filters:
           branches:
             ignore:
