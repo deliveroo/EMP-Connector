@@ -41,7 +41,7 @@ ___
     // Stop the connector
     connector.stop();
 
-See [LoginExample.java](src/main/java/com/salesforce/emp/connector/example/LoginExample.java) for full example.
+See [LoginExample.java](src/test/java/com/salesforce/emp/connector/example/LoginExample.java) for full example.
 
 ## Example Classes
 Several example classes are provided to subscribe to a channel. All classes contain a `main` function that starts the tool. All examples authenticate to Salesforce and subscribe to a channel. Some examples use a different authentication mechanism or provide verbose logging.
@@ -83,7 +83,7 @@ If you subscribe to a PushTopic channel with a filter, enclose the entire channe
 Only Pushtopic events support filtering. For more information, see [Filtered Subscriptions](https://developer.salesforce.com/docs/atlas.en-us.api_streaming.meta/api_streaming/using_filtered_subscriptions.htm).
 
 ## Debug Logging of Bayeux Messages
-The [LoggingListener](src/main/java/com/salesforce/emp/connector/example/LoggingListener.java) class provides debug logging output of Bayeux messages received on the meta channels, such as `/meta/handshake` and `/meta/connect`. Each message is logged to the console with a timestamp, a "Success" prefix or a "Failure" prefix depending on whether the operation was successful or not, and then the body of the Bayeux message. For example, this log is for a handshake message.
+The [LoggingListener](src/test/java/com/salesforce/emp/connector/example/LoggingListener.java) class provides debug logging output of Bayeux messages received on the meta channels, such as `/meta/handshake` and `/meta/connect`. Each message is logged to the console with a timestamp, a "Success" prefix or a "Failure" prefix depending on whether the operation was successful or not, and then the body of the Bayeux message. For example, this log is for a handshake message.
 
     [2018-01-19 10:54:12.701] Success:[/meta/handshake]
     {ext={replay=true, payload.format=true}, minimumVersion=1.0, clientId=cn2vei6rz2pa01gqqvungzlppy,
@@ -99,7 +99,7 @@ To add logging support to your connection, first create an instance of the `Logg
              .addListener(META_SUBSCRIBE, loggingListener)
              .addListener(META_UNSUBSCRIBE, loggingListener);
 
-The [DevLoginExample](src/main/java/com/salesforce/emp/connector/example/DevLoginExample.java) class uses `LoggingListener` to log the messages received.
+The [DevLoginExample](src/test/java/com/salesforce/emp/connector/example/DevLoginExample.java) class uses `LoggingListener` to log the messages received.
 
 ## Reauthentication
 Authentication becomes invalid when a Salesforce session is invalidated or an access token is revoked. EMP connector listens to `401::Authentication invalid` error messages that Streaming API sends when the authentication is no longer valid. To reauthenticate after a 401 error is received, call the `EmpConnector.setBearerTokenProvider()` method, which accepts a function that reauthenticates and returns a new session ID or access token.
@@ -111,7 +111,7 @@ Authentication becomes invalid when a Salesforce session is invalidated or an ac
     // Set the bearer token function
     connector.setBearerTokenProvider(bearerTokenProvider);
 
-For a full example, see [LoginExample.java](src/main/java/com/salesforce/emp/connector/example/LoginExample.java).
+For a full example, see [LoginExample.java](src/test/java/com/salesforce/emp/connector/example/LoginExample.java).
 
 ## Documentation
 For more information about the components of the EMP Connector and a walkthrough, see the [Java Client Example](https://developer.salesforce.com/docs/atlas.en-us.api_streaming.meta/api_streaming/code_sample_java_client_intro.htm)
